@@ -50,6 +50,8 @@ import org.jetbrains.annotations.Nullable;
 public class ServiceConfigurationImpl implements ServiceConfiguration
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceConfigurationImpl.class);
+    public static final String DNS_RESOLVER_PROPERTY = "dnsResolver";
+    public static final String DEFAULT_DNS_RESOLVER = "DEFAULT";
     public static final String HOST_PROPERTY = "host";
     public static final String DEFAULT_HOST = "0.0.0.0";
     public static final String PORT_PROPERTY = "port";
@@ -91,6 +93,8 @@ public class ServiceConfigurationImpl implements ServiceConfiguration
                                                            MillisecondBoundConfiguration.parse("15m")));
     }});
 
+    @JsonProperty(value = DNS_RESOLVER_PROPERTY, defaultValue = DEFAULT_DNS_RESOLVER)
+    protected final String dnsResolver;
 
     @JsonProperty(value = HOST_PROPERTY, defaultValue = DEFAULT_HOST)
     protected final String host;
@@ -164,6 +168,7 @@ public class ServiceConfigurationImpl implements ServiceConfiguration
      */
     protected ServiceConfigurationImpl(Builder builder)
     {
+        dnsResolver = builder.dnsResolver;
         host = builder.host;
         port = builder.port;
         requestIdleTimeout = builder.requestIdleTimeout;
@@ -184,6 +189,12 @@ public class ServiceConfigurationImpl implements ServiceConfiguration
         schemaKeyspaceConfiguration = builder.schemaKeyspaceConfiguration;
         cdcConfiguration = builder.cdcConfiguration;
         coordinationConfiguration = builder.coordinationConfiguration;
+    }
+
+    @Override
+    @JsonProperty(value = DNS_RESOLVER_PROPERTY)
+    public String dnsResolver() {
+        return dnsResolver;
     }
 
     /**
@@ -459,6 +470,7 @@ public class ServiceConfigurationImpl implements ServiceConfiguration
      */
     public static class Builder implements DataObjectBuilder<Builder, ServiceConfigurationImpl>
     {
+        protected String dnsResolver = DEFAULT_DNS_RESOLVER;
         protected String host = DEFAULT_HOST;
         protected int port = DEFAULT_PORT;
         protected MillisecondBoundConfiguration requestIdleTimeout = DEFAULT_REQUEST_IDLE_TIMEOUT;

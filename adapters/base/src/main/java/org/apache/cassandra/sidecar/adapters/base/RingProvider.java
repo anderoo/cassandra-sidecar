@@ -111,7 +111,7 @@ public class RingProvider
                                   .token(token)
                                   .address(hap.getHost())
                                   .port(hap.getPort())
-                                  .fqdn(dnsResolver.reverseResolve(hap.getHost()))
+                                  .fqdn(hap.getHost()) // .fqdn(dnsResolver.reverseResolve(hap.getHost()))
                                   .hostId(endpointsToHostIds.getOrDefault(endpoint, UNKNOWN))
                                   .build();
             response.add(ringEntry);

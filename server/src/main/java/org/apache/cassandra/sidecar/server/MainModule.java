@@ -714,9 +714,8 @@ public class MainModule extends AbstractModule
 
     @Provides
     @Singleton
-    public DnsResolver dnsResolver()
-    {
-        return DnsResolver.DEFAULT;
+    public DnsResolver dnsResolver() throws IOException {
+        return DnsResolver.getDnsResolver(sidecarConfiguration().serviceConfiguration().dnsResolver());
     }
 
     @Provides

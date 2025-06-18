@@ -151,24 +151,16 @@ public class TokenRangeReplicaProvider
                          .flatMap(Collection::stream)
                          .distinct()
                          .map(replica -> {
-                             try
-                             {
-                                 HostAndPort hap = HostAndPort.fromString(replica);
-                                 String fqdn = dnsResolver.reverseResolve(hap.getHost());
-                                 String datacenter = hostToDatacenter.get(replica);
-                                 return new AbstractMap.SimpleEntry<>(replica,
-                                                                      new ReplicaMetadata(state.of(replica),
-                                                                                          status.of(replica),
-                                                                                          fqdn,
-                                                                                          hap.getHost(),
-                                                                                          hap.getPort(),
-                                                                                          datacenter));
-                             }
-                             catch (UnknownHostException e)
-                             {
-                                 throw new RuntimeException(
-                                 String.format("Failed to resolve fqdn for replica %s ", replica), e);
-                             }
+                             HostAndPort hap = HostAndPort.fromString(replica);
+                             // String fqdn = dnsResolver.reverseResolve(hap.getHost());
+                             String datacenter = hostToDatacenter.get(replica);
+                             return new AbstractMap.SimpleEntry<>(replica,
+                                                                  new ReplicaMetadata(state.of(replica),
+                                                                                      status.of(replica),
+                                                                                      hap.getHost(),
+                                                                                      hap.getHost(),
+                                                                                      hap.getPort(),
+                                                                                      datacenter));
                          })
                          .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     }

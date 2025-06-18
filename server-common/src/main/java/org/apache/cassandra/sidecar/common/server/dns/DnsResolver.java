@@ -41,6 +41,29 @@ public interface DnsResolver
         }
     };
 
+    DnsResolver IP_ADDRESS = new DnsResolver() {
+        @Override
+        public String resolve(String hostname) throws UnknownHostException {
+            return InetAddress.getByName(hostname).getHostAddress();
+        }
+
+        @Override
+        public String reverseResolve(String address) throws UnknownHostException {
+            return address;
+        }
+    };
+
+    public static DnsResolver getDnsResolver(String dnsResolver) throws UnsupportedOperationException {
+        switch (dnsResolver) {
+            case "DEFAULT":
+                return DEFAULT;
+            case "IP_ADDRESS":
+                return IP_ADDRESS;
+            default:
+                throw new UnsupportedOperationException("Unexpected DnsResolver: " + dnsResolver);
+        }
+    }
+
     /**
      * Resolves the IP address of the hostname
      *

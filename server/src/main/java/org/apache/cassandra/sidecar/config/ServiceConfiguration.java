@@ -47,6 +47,11 @@ public interface ServiceConfiguration
     }
 
     /**
+     * @return Sidecar's DNS Resolver to use
+     */
+    String dnsResolver();
+
+    /**
      * @return Sidecar's HTTP REST API listen address
      */
     String host();
