@@ -47,7 +47,8 @@ public interface ServiceConfiguration
     }
 
     /**
-     * @return Sidecar's DNS Resolver to use
+     * @return Sidecar's DNS Resolver to use. DEFAULT will provide forward and reverse DNS resolution and provide
+     * both the hostname & address. FORWARD_ONLY_RESOLVER only provides forward resolution.
      */
     String dnsResolver();
 

@@ -41,24 +41,29 @@ public interface DnsResolver
         }
     };
 
-    DnsResolver IP_ADDRESS = new DnsResolver() {
+    DnsResolver FORWARD_ONLY_RESOLVER = new DnsResolver()
+    {
         @Override
-        public String resolve(String hostname) throws UnknownHostException {
+        public String resolve(String hostname) throws UnknownHostException
+        {
             return InetAddress.getByName(hostname).getHostAddress();
         }
 
         @Override
-        public String reverseResolve(String address) throws UnknownHostException {
+        public String reverseResolve(String address) throws UnknownHostException
+        {
             return address;
         }
     };
 
-    public static DnsResolver getDnsResolver(String dnsResolver) throws UnsupportedOperationException {
-        switch (dnsResolver) {
+    static DnsResolver getDnsResolver(String dnsResolver) throws UnsupportedOperationException
+    {
+        switch (dnsResolver)
+        {
             case "DEFAULT":
                 return DEFAULT;
-            case "IP_ADDRESS":
-                return IP_ADDRESS;
+            case "FORWARD_ONLY_RESOLVER":
+                return FORWARD_ONLY_RESOLVER;
             default:
                 throw new UnsupportedOperationException("Unexpected DnsResolver: " + dnsResolver);
         }
